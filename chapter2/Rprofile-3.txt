@@ -1,0 +1,9 @@
+# フォントファミリーjpfontを作成する
+grDevices::X11Fonts(jpfont = grDevices::X11Font("-*-mincho-%s-%s-*-*-%d-*-*-*-*-*-*-*"))
+# 新しいプロットが作成される際にフォントファミリーjpfontを使う
+setHook("plot.new", function() {
+	 par(family = "jpfont")
+})
+setHook("persp", function() {
+	 par(family = "jpfont")
+})

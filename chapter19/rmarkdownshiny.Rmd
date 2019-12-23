@@ -1,0 +1,42 @@
+---
+runtime: shiny
+output: html_document
+---
+# ナイル川流量レポート
+```{r, echo=FALSE}
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(ggfortify))
+suppressPackageStartupMessages(library(tidyr))
+```
+```{r, echo=FALSE}
+inputPanel(
+    # 次数選択ボックス
+    selectInput(
+        "degree",
+        label = "次数:",
+        choices = c(0, 1, 2),　selected = 2
+    ),
+
+    # スパン選択スライダー
+    sliderInput(
+      "span",
+      label = "平滑化スパン:",
+      min = 0.1, max = 1, value = 0.75, step = 0.01
+    )
+)
+```
+```{r, echo=FALSE}
+renderPlot({
+    # データ整形
+    nile <- fortify(Nile)
+    model <- loess(Data ~ Index, data = nile, degree = input$degree, span = input$span)
+    nile$Smooth <- predict(model, data = nile)
+    nile <- gather(nile, Data, Flow, -Index)
+
+    # グラフ出力
+    g <- ggplot(nile, aes(x = Index, y = Flow, colour = Data)) +
+        geom_line() +
+        xlab("Year")
+    print(g)
+})
+```

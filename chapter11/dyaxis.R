@@ -1,0 +1,5 @@
+library("dygraphs")
+library("xts")
+data_weight <- read.csv("https://raw.githubusercontent.com/dichika/mydata/master/ore_wt.csv", as.is=TRUE)
+data_weight <- xts(x=data_weight$weight, order.by=as.Date(data_weight$time))
+dygraph(data=data_weight) %>% dyAxis(name='y', valueRange = c(60, 66))

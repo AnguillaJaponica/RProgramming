@@ -1,0 +1,11 @@
+# ＭＳ Ｐゴシックを使うフォントファミリーjpfontを作成する
+# MS, Pは全角大文字、MSとPの間のスペースは半角
+# メモ帳の書式設定からフォント名をコピーしてペーストすると間違えない
+grDevices::windowsFonts(jpfont = grDevices::windowsFont("ＭＳ Ｐゴシック"))
+# 新しいプロットが作成される際にjpfontを使う
+setHook("plot.new", function() {
+	 par(family = "jpfont")
+})
+setHook("persp", function() {
+	 par(family = "jpfont")
+})
